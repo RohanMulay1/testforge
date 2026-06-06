@@ -8,3 +8,32 @@ Evaluating baseline on TRAIN ...
 
 === Round 2/2 ===
   candidate 1: TRAIN composite = 99.45  (Increase max_turns from 13 to 18 to prevent priority_queue timeout and allow tem)
+  candidate 2: TRAIN composite = 82.78  (Restructure prompt into explicit 3-phase process (analyze→write→validate) with c)
+  -> accepted new incumbent (+16.67, now 99.45)
+
+Evaluating BASELINE vs BEST on held-out TEST split ...
+
+
+## Before / After — held-out split=`test`
+
+| Metric | Baseline | Optimized | Δ |
+| --- | ---: | ---: | ---: |
+| Composite (0-100) | 74.17 | 74.17 | +0.00 |
+| Mutation score | 0.729 | 0.729 | +0.000 |
+| Branch coverage | 0.750 | 0.750 | +0.000 |
+| Line coverage | 0.750 | 0.750 | +0.000 |
+| Pass rate | 0.750 | 0.750 | +0.000 |
+| Valid rate | 1.000 | 1.000 | +0.000 |
+| Avg turns | 8.75 | 16.50 | +7.75 |
+| Total cost (USD) | 0.2500 | 0.5210 | +0.2710 |
+
+### Per-task composite
+
+| Task | Baseline | Optimized | Δ |
+| --- | ---: | ---: | ---: |
+| linked_list | 100.00 | 100.00 | +0.00 |
+| csv_parser | 100.00 | 0.00 | -100.00 |
+| date_range | 0.00 | 100.00 | +100.00 |
+| calculator | 96.67 | 96.67 | +0.00 |
+
+Artifacts written to C:\Users\rohan\testforge\runs/ (best_genome.json, optimize_result.json, report.md)

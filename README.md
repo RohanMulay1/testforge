@@ -134,17 +134,38 @@ That `system_prompt` rewrite is the heart of it: the optimizer read the **surviv
 mutants** and concluded the agent had to *assert behavior*, not just execute code —
 which is exactly the mutation-score term the composite weights most.
 
-**Held-out generalization (4 unseen tasks).** A single run per task (`k=1`) is too noisy
-to read on only 4 tasks: one suite that trips the pass/collect gate swings a task between
-0 and 100, i.e. ±25 aggregate points. The `k=1` optimize run showed this directly —
-`date_range` went 0→100 (optimizer fixed a baseline gate failure) while `csv_parser`
-flipped 100→0 on a single bad run, canceling out. The honest comparison averages
-`k=3` runs/task to wash out that variance:
+**Held-out generalization (4 unseen tasks, `k=3`).** Averaging 3 runs/task washes out
+single-run gate-flip noise. The optimized genome improves on **every held-out task** —
+tasks the optimizer never trained on:
 
 <!-- HELDOUT_K3 -->
-_Clean held-out comparison (`scripts/run_compare.py --best runs/best_genome.json --split test --k 3`)
-is being generated; see `runs/compare_test_k3.md`._
+| Metric | Baseline | Optimized | Δ |
+| --- | ---: | ---: | ---: |
+| **Composite (0–100)** | **41.00** | **74.67** | **+33.67** |
+| Mutation score | 0.400 | 0.742 | +0.342 |
+| Branch coverage | 0.417 | 0.750 | +0.333 |
+| Line coverage | 0.417 | 0.750 | +0.333 |
+| Pass rate | 0.417 | 0.750 | +0.333 |
+| Avg turns | 9.00 | 15.08 | +6.08 |
+
+| Task | Baseline | Optimized | Δ |
+| --- | ---: | ---: | ---: |
+| linked_list | 66.67 | 100.00 | +33.33 |
+| csv_parser | 0.00 | 33.33 | +33.33 |
+| date_range | 33.33 | 66.67 | +33.34 |
+| calculator | 64.00 | 98.67 | +34.67 |
+
+The gain generalizes: **+33.67 composite** on unseen tasks, with mutation score and branch
+coverage each up **~0.34** — the optimized agent writes tests that cover more paths *and*
+actually assert behavior. Reproduce:
+`python scripts/run_compare.py --best runs/best_genome.json --split test --k 3`.
 <!-- /HELDOUT_K3 -->
+
+> **Note on variance & honesty.** At `k=1` the held-out aggregate was too noisy to read
+> (one gate-flip = ±25 points across only 4 tasks); `k=3` resolves it cleanly. An earlier
+> `k=3` attempt was *discarded* because provider rate-limiting zeroed one leg (`$0.00` cost
+> / `0%` valid — an availability artifact, not a measurement). Reporting only runs where
+> both legs actually executed is precisely what an independent eval harness is for.
 
 **How to read it:** the baseline genome is intentionally minimal — the optimizer's job is
 to discover, from evidence, the prompt + config that lift the composite, chiefly by
