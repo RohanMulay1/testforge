@@ -1,0 +1,20 @@
+{
+  "description": "TestForge eval dataset. Each task is a self-contained, deterministic Python source module under <name>/source.py with branches and explicit error paths. No reference tests are shipped; quality is measured by the harness (coverage + mutation).",
+  "source_filename": "source.py",
+  "splits": {
+    "train": [
+      "stack",
+      "roman_numerals",
+      "bank_account",
+      "string_utils",
+      "temperature",
+      "priority_queue"
+    ],
+    "test": [
+      "linked_list",
+      "csv_parser",
+      "date_range",
+      "calculator"
+    ]
+  }
+}

@@ -1,0 +1,10 @@
+Evaluating baseline on TRAIN ...
+  baseline TRAIN composite = 82.22
+
+=== Round 1/2 ===
+  candidate 1: TRAIN composite = 49.45  (Added measure_coverage tool to identify uncovered lines/branches, increased max_)
+  candidate 2: TRAIN composite = 82.78  (Explicitly frames task as mutation-score maximization with concrete examples, ad)
+  -> accepted new incumbent (+0.56, now 82.78)
+
+=== Round 2/2 ===
+  candidate 1: TRAIN composite = 99.45  (Increase max_turns from 13 to 18 to prevent priority_queue timeout and allow tem)

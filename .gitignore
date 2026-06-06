@@ -1,0 +1,24 @@
+# Run artifacts: genomes, transcripts, eval JSON, reports
+runs/
+
+# Secrets
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.venv/
+venv/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
